@@ -12,7 +12,7 @@ raw <- readr::read_csv("data/data_final.csv")
 
 # Testdaten und unvollständige Daten entfernen ----
 # 1. Hinweis: Pretester nicht enthalten, da Pretest im Testmode stattgfunden hat
-# 2. Hinweis: Ausschluss unvollständiger Fragebögen über Spalte "sys_RespStatus", wenn diese 5 ist, war die letzte "Frage" der Probanden der "EndText"
+# 2. Hinweis: Ausschluss unvollständiger Fragebögen über Spalte "sys_LastQuestion". Probanden, bei denen in diesem Feld "EndText" steht haben die Umfrage vollständig ausgefüllt. Probanden, bei denen in diesem Feld "CBC_Random12" steht haben die Umfrag eauf dem EndText weggeklickt.
 
 raw %>% 
   filter(sys_LastQuestion %in% c("EndText", "CBC_Random12")) -> raw
