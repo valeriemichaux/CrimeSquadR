@@ -4,9 +4,9 @@ library(psych)
 source("qualtricshelpers.R")
 
 # Rohdaten einlesen: ----
-filename <- "data/data.csv"
+filename <- "data/data_final.csv"
 raw <- load_qualtrics_csv(filename)
-#raw <- readr::read_csv("data/data.csv")
+#raw <- readr::read_csv("data/data_final.csv")
 
 #Spezielle Funktion, die helfen soll nachher besser mit dem Codebook zu arbeiten.
 # Entfernt die ersten beiden Zeilen. Später prüfen, ob wir diese wirklich brauchen.
@@ -16,7 +16,7 @@ raw <- load_qualtrics_csv(filename)
 # 2. Hinweis: Ausschluss unvollständiger Fragebögen über Spalte "sys_RespStatus", wenn diese 5 ist, war die letzte "Frage" der Probanden der "EndText"
 
 raw %>% 
-  filter(sys_RespStatus == 5) -> raw
+  filter(sys_LastQuestion %in% c("EndText", "CBC_Random12")) -> raw
 
 # Datensatz noch auf Speeder prüfen und diese ggf. rausfiltern
 #Spalte "sys_ElapsedTime" ist die Dauer in Sekunden 
