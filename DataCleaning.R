@@ -5,8 +5,7 @@ source("qualtricshelpers.R")
 
 # Rohdaten einlesen: ----
 filename <- "data/data_final.csv"
-raw <- load_qualtrics_csv(filename)
-#raw <- readr::read_csv("data/data_final.csv")
+raw <- readr::read_csv("data/data_final.csv")
 
 #Spezielle Funktion, die helfen soll nachher besser mit dem Codebook zu arbeiten.
 # Entfernt die ersten beiden Zeilen. Später prüfen, ob wir diese wirklich brauchen.
@@ -33,9 +32,9 @@ raw.short <- raw[,c(-2:-19, -54:-81)]
 
 # Spalten umbenennen: ----
 
-generate_codebook(raw.short, filename, "data/codebook.csv")
+#generate_codebook(raw.short, filename, "data/codebook.csv")
 
-codebook <- read_codebook("data/codebook_final.csv")
+codebook<-read_codebook("data/codebook_final.csv")
 
 names(raw.short) <- codebook$variable
 
