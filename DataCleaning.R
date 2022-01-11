@@ -12,7 +12,7 @@ raw <- load_qualtrics_csv(filename)
 # Entfernt die ersten beiden Zeilen. Später prüfen, ob wir diese wirklich brauchen.
 
 # Testdaten und unvollständige Daten entfernen ----
-# 1. Hinweis: Pretester nicht enthalten, da Pretest im Testmode stattgfunden hat, richtig?
+# 1. Hinweis: Pretester nicht enthalten, da Pretest im Testmode stattgfunden hat
 # 2. Hinweis: Ausschluss unvollständiger Fragebögen über Spalte "sys_RespStatus", wenn diese 5 ist, war die letzte "Frage" der Probanden der "EndText"
 
 raw %>% 
@@ -28,7 +28,7 @@ filter(!sys_ElapsedTime < speedlimit) -> raw
 #Durch den Code werden 2 Speeder ausgeschlossen. Probanden haben 268 (4 Min, 28 Sek) bzw. 132 (2. Min, 12 Sek.) Sekunden für die Umfrage benötigt
 
 # Unnötige Spalten entfernen: ----
-# mit Entfernen der Spalten 40 bis 41 würde CBC Teil ebenfalls ausgekürzt
+# mit Entfernen der Spalten 40 bis 51 würde CBC Teil ebenfalls ausgekürzt
 raw.short <- raw[,c(-2:-19, -54:-81)]
 
 # Spalten umbenennen: ----
@@ -74,7 +74,7 @@ raw.short %>%
   mutate(education = case_when(
     education == 1 ~ "Kein Schulabschluss",
     education == 2 ~ "Volks- und Hochschulabschluss",
-    education == 3 ~ "Mittlere Reife/Realschulabschluss"
+    education == 3 ~ "Mittlere Reife/Realschulabschluss",
     education == 4 ~ "Berufsausbildung",
     education == 5 ~ "Fach-/Allgemeine Hochschulreife",
     education == 6 ~ "Fach- oder Hochschulabschluss",
@@ -85,7 +85,7 @@ raw.short %>%
 
 # Variablen sind ordinale Variablen. 
 # Fall 1: Die Skala kommt genau einmal vor: 
-raw.short$education <- ordered(raw.short$education, levels = c("Kein Schulabschluss", 
+# raw.short$education <- ordered(raw.short$education, levels = c("Kein Schulabschluss", 
                                                    "Volks- und Hauptschulabschluss", 
                                                    "Mittlere Reife/Realchulabschluss",
                                                    "Berufsausbildung",
