@@ -7,9 +7,6 @@ source("qualtricshelpers.R")
 filename <- "data/data_final.csv"
 raw <- readr::read_csv("data/data_final.csv")
 
-#Spezielle Funktion, die helfen soll nachher besser mit dem Codebook zu arbeiten.
-# Entfernt die ersten beiden Zeilen. Später prüfen, ob wir diese wirklich brauchen.
-
 # Testdaten und unvollständige Daten entfernen ----
 # 1. Hinweis: Pretester nicht enthalten, da Pretest im Testmode stattgfunden hat
 # 2. Hinweis: Ausschluss unvollständiger Fragebögen über Spalte "sys_LastQuestion". Probanden, bei denen in diesem Feld "EndText" steht haben die Umfrage vollständig ausgefüllt. Probanden, bei denen in diesem Feld "CBC_Random12" steht haben die Umfrag eauf dem EndText weggeklickt.
@@ -28,7 +25,7 @@ filter(!sys_ElapsedTime < speedlimit) -> raw
 
 # Unnötige Spalten entfernen: ----
 # mit Entfernen der Spalten 40 bis 51 würde CBC Teil ebenfalls ausgekürzt
-raw.short <- raw[,c(-2:-19, -54:-81)]
+raw.short <- raw[,c(-2:-19, -40:-51, -54:-81)]
 
 # Spalten umbenennen: ----
 
@@ -39,8 +36,6 @@ codebook<-read_codebook("data/codebook_final.csv")
 names(raw.short) <- codebook$variable
 
 # Richtige Skalenniveaus zuordnen: ----
-
-# Einfachster Fall: Variablen sind Zahlen oder ungeordnete Faktoren: 
 
 # Alter ist bereits numerisch
 
@@ -80,38 +75,6 @@ raw.short %>%
     education == 7 ~ "Promotion",
     education == 8 ~ "Sonstiges"
   )) -> raw.short
-
-
-# Variablen sind ordinale Variablen. 
-# Fall 1: Die Skala kommt genau einmal vor: 
-# raw.short$education <- ordered(raw.short$education, levels = c("Kein Schulabschluss", 
-                                                   "Volks- und Hauptschulabschluss", 
-                                                   "Mittlere Reife/Realchulabschluss",
-                                                   "Berufsausbildung",
-                                                   "Fach-/Allgemeine Hochschulreife".
-                                                   "Fach- oder Hochschulabschluss",
-                                                   "Promotion",
-                                                   "Sonstiges"))
-
-# FRAGE AN DIE GRUPPE: Wollen wir education als ordinale Variable transformieren? Wir haben Berufsabschlüsse
-# sehr differenziert erhoben. Meiner Meinung nach keine wirkliche Reihenfolge möglich. 
-
-
-# Fall 2: Die Skala kommt mehrfach zum Einsatz.
-#FRAGE: Skalen wurden durch System als numerisch angelegt, also müssen wir diesen keine Level zuordnen und sie auch nicht einem neuen Skalenniveau zuordnen, oder?
-
-#ordered.zustimmung <- function(x){
-#res <- ordered(x, levels = c("Stimme gar nicht zu", 
-                               "Stimme nicht zu", 
-                               "Stimme eher nicht zu", 
-                               "Stimme eher zu", 
-                               "Stimme zu", 
-                               "Stimme voll zu"))
-  res
-}
-
-#raw.short %>% 
- # mutate_at(vars(starts_with(c("kut", "gaais"), ignore.case = F)), ordered.zustimmung) -> raw.short
 
 # Skalen berechnen: ----
 
