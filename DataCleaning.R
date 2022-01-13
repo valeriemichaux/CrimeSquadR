@@ -89,7 +89,14 @@ scores <- scoreItems(schluesselliste, items = raw.short, missing = TRUE, min = 1
 #Check Cronbachs Alpha
 scores$alpha
 
+
 # Berechnete Skalan hinten an raw.short anfügen.
 data <- bind_cols(raw.short, as_tibble(scores$scores))
+
+data_short <- data[,c(-6:-23)]
+
+
+
+
 
   

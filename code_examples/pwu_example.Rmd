@@ -1,0 +1,67 @@
+---
+title: "pwu_example"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Konzept
+
+```{r echo=FALSE}
+pwu <- data %>% filter(gender="!") select("pwu_name") %>% pivot_longer(cols = everything(), names_to = "level", values_to = "score") %>% mutate(group="group_name") #Auswahl der Variablen und transformation ins "lange format". 
+
+pwu$level<- factor(pwu$level, levels=c("name_of_level")) #Level ordnen
+
+pwu %>% 
+  ggplot +
+  aes(x = level, y = score, fill=scenario) +
+  stat_summary(geom = "bar", position = position_dodge()) + # Erstellung der Balken und Verschiebung
+  stat_summary(geom="text", aes(label=sprintf("%1.2f", ..y..)), size=3, position = position_dodge(width = 0.90)) + # Erstellung der labels
+  #ylim(-50,50) + #Grenzen der Y-Axen
+  coord_flip() + #Umkehrehren der Axen damit sie vertikal liegens
+  labs(x = "Level", y = "Teilnutzenwerte", fill="Szenario") +
+  scale_fill_discrete(label=c()) + #Gruppen benennen
+  scale_fill_manual(values = c()) + #Farben der Gruppen
+  scale_x_discrete(label=c( ))+ #Namen der Teilnutzenwerte
+
+  ggsave('exports/pwu.svg', width = 20, height = 10, units = "cm", dpi=300) #Export zu SVG-Format
+```
+
+## Beispiel
+```{r echo=FALSE, warning=FALSE}
+AMDB_PWU <- data %>% select("Zeitlich_flexibel" = Zeitlich_flexibel_AMDB, "Zeitlich_und_örtlich_flexibel" = Zeitlich_und_örtlich_flexibel_AMDB, "Örtlich_flexibel" = Örtlich_flexibel_AMDB, "Gleiche_Kosten" = Gleiche_Kosten_AMDB, "Kosten_sind_höher" =Kosten_sind_höher_AMDB, "Kosten_sind_geringer" = Kosten_sind_geringer_AMDB, "Erfolgreicher_Testbetrieb_auf_der_Teststrecke" = Erfolgreicher_Testbetrieb_auf_der_Teststrecke_AMDB, "Erfolgreicher_Testbetrieb_im_öffentlichen_Raum" = Erfolgreicher_Testbetrieb_im_öffentlichen_Raum_AMDB, "Keine_verantworliche_Person_an_Bord" = Keine_verantworliche_Person_an_Bord_AMDB, "Verantwortliche_Person_an_Bord" = Verantwortliche_Person_an_Bord_AMDB, "Person_in_der_Führerkabin" = Person_in_der_Führerkabin_AMDB) %>% pivot_longer(cols = everything(), names_to = "level", values_to = "score") %>% mutate(scenario="AMDB")
+
+ALW_PWU <- data %>% select("Zeitlich_flexibel" = Zeitlich_flexibel_ALW, "Zeitlich_und_örtlich_flexibel" = Zeitlich_und_örtlich_flexibel_ALW, "Örtlich_flexibel" = Örtlich_flexibel_ALW, "Gleiche_Kosten" = Gleiche_Kosten_ALW, "Kosten_sind_höher" =Kosten_sind_höher_ALW, "Kosten_sind_geringer" = Kosten_sind_geringer_ALW, "Erfolgreicher_Testbetrieb_auf_der_Teststrecke" = Erfolgreicher_Testbetrieb_auf_der_Teststrecke_ALW, "Erfolgreicher_Testbetrieb_im_öffentlichen_Raum" = Erfolgreicher_Testbetrieb_im_öffentlichen_Raum_ALW, "Keine_verantworliche_Person_an_Bord" = Keine_verantworliche_Person_an_Bord_ALW, "Verantwortliche_Person_an_Bord" = Verantwortliche_Person_an_Bord_ALW, "Person_in_der_Führerkabin" = Person_in_der_Führerkabine_ALW) %>% pivot_longer(cols = everything(), names_to = "level", values_to = "score") %>% mutate(scenario="ALW")
+
+pwu <- rbind(AMDB_PWU, ALW_PWU)
+
+pwu$level<- factor(pwu$level, levels=c("Zeitlich_flexibel" , "Zeitlich_und_örtlich_flexibel", "Örtlich_flexibel" , "Gleiche_Kosten", "Kosten_sind_höher" , "Kosten_sind_geringer" , "Erfolgreicher_Testbetrieb_auf_der_Teststrecke" , "Erfolgreicher_Testbetrieb_im_öffentlichen_Raum" , "Keine_verantworliche_Person_an_Bord" , "Verantwortliche_Person_an_Bord" , "Person_in_der_Führerkabin" ))
+
+pwu %>% 
+  ggplot +
+  aes(x = level, y = score, fill=scenario) +
+  stat_summary(geom = "bar", position = position_dodge()) +
+  stat_summary(geom="text", aes(label=sprintf("%1.2f", ..y..)), size=3, position = position_dodge(width = 0.90),family="Open Sans Light" ) +
+  #ylim(-50,50) +
+  coord_flip() +
+  labs(x = "Level", y = "Teilnutzenwerte", fill="Szenario") +
+  scale_fill_discrete(label=c("Delivery service", "General service")) +
+  scale_fill_manual(values = c(HCIC_COLORS[6:7])) +
+  scale_x_discrete(label=c("Zeitlich flexibel", 
+                           "Zeitlich und örtlich flexibel", 
+                           "Örtlich flexibel", 
+                           "Gleich kosten",
+                           "Kosten sind höher", 
+                           "Kosten sind geringer",
+                           "Erfolgreicher Testbetrieb auf der Teststrecke",
+                           "Erfolgreicher Testbetrieb im öffentlichen Raum",
+                           "Keine Verantwortliche Person an Bord", 
+                           "Verantwortliche Person an Bord",
+                           "Person in der Führerkabine"
+                           ))+
+  theme_hcic()
+
+  ggsave('exports/pwu.svg', width = 20, height = 10, units = "cm", dpi=300)
+```
