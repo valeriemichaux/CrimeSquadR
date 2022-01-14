@@ -5,8 +5,45 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
 ```
 
 ```{r}
+datacleaning <- readr::read_csv("data/datacleaning.csv")
+
+utilities<- readr::read_csv("data/Utilities.csv")
+
+impo<- readr::read_csv2("data/Importances.csv")
+
+
+bind_cols(datacleaning, utilities, impo)-> new
+
+new.short<-new[,c(-1, -9:-10, -22)]
+
+colnames(new.short)
+
+
+
+names(new.short)[8:18]<- c("Konzert","Bahnhof","Einkaufsstraße","Bewegungsverlauf","Gesichtserkennung","Verdächtige Gegenstände", "KI liefert Erklärung", "KI liefert keine Erklärung", "Sofortige Löschung","Löschung nach 3 Monaten", "Dauerhafte Speicherung")
+
+#Deskriptive Statistik 
+mean(new.short$age)
+min(new.short$age)
+max(new.short$age)
+sd(new.short$age)
+
+
+#T-Test: Welcher Geschlechtsunterschiede und Trade-Offs gibt es bei der Akzeptanzbewertung von KI-basierter Videoüberwachung?
+
+#UV: Geschelcht; Gruppen: Männlich& weiblich, AV: Speicherung
+
+
+#Code Bsp. t-Test  
+t.test(filter (new.short, gender == "maennlich")$Speicherung, filter(new.short, gender == "weiblich")$Speicherung)
+
+
+
+
 ```
 

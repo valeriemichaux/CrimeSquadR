@@ -46,14 +46,14 @@ raw.short %>%
 
 raw.short %>% 
   mutate(gender = case_when(
-    gender == 1 ~ "männlich",
+    gender == 1 ~ "maennlich",
     gender == 2 ~ "weiblich",
     gender == 3 ~ "divers"
   )) -> raw.short
 
 raw.short %>% 
   mutate(jobtype = case_when(
-    jobtype == 1 ~ "Schüler*in",
+    jobtype == 1 ~ "Schueler*in",
     jobtype == 2 ~ "Student*in",
     jobtype == 3 ~ "Auszubildende*r",
     jobtype == 4 ~ "Angestellte*r",
@@ -94,6 +94,9 @@ scores$alpha
 data <- bind_cols(raw.short, as_tibble(scores$scores))
 
 data_short <- data[,c(-6:-23)]
+
+
+write.csv(data_short,'datacleaning.csv')
 
 
 
