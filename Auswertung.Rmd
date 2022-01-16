@@ -7,6 +7,9 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 
 library(tidyverse)
+library(psych)
+library(ggplot2)
+
 ```
 
 ```{r}
@@ -17,13 +20,13 @@ utilities<- readr::read_csv("data/Utilities.csv")
 impo<- readr::read_csv2("data/Importances.csv")
 
 
+importances.geschlecht<- readr::read_csv2("data/Importances_geschlecht2.csv")
+
 bind_cols(datacleaning, utilities, impo)-> new
 
 new.short<-new[,c(-1, -9:-10, -22)]
 
-colnames(new.short)
-
-
+#colnames(new.short)
 
 names(new.short)[8:18]<- c("Konzert","Bahnhof","Einkaufsstraße","Bewegungsverlauf","Gesichtserkennung","Verdächtige Gegenstände", "KI liefert Erklärung", "KI liefert keine Erklärung", "Sofortige Löschung","Löschung nach 3 Monaten", "Dauerhafte Speicherung")
 
@@ -34,15 +37,40 @@ max(new.short$age)
 sd(new.short$age)
 
 
+#new.short%>% 
+  #mutate(gender = case_when(
+    #gender == "maennlich" ~ 1,
+    #gender == "weiblich" ~ 2)) ->new.short
+
+#table(new.short$gender)
+#wir haben 41 Männer und 55 Frauen 
+
+  
 #T-Test: Welcher Geschlechtsunterschiede und Trade-Offs gibt es bei der Akzeptanzbewertung von KI-basierter Videoüberwachung?
 
 #UV: Geschelcht; Gruppen: Männlich& weiblich, AV: Speicherung
 
 
-#Code Bsp. t-Test  
+#Code Bsp. t-Test
+
 t.test(filter (new.short, gender == "maennlich")$Speicherung, filter(new.short, gender == "weiblich")$Speicherung)
 
+#Es gibt keinen signifikanten Unterschied zwischen Männern und Frauen hinsichtlich der Akzeptanz von Datenspeicherung bei KI-basierter Videoüberwachung (t(78.67)= -0.34897, p=.728). 
 
+t.test(filter (new.short, gender == "maennlich")$Speicherung, filter(new.short, gender == "weiblich")$Datenpartikel)
+#Es gibt einen signifikanten Unterschied zwischen Männern und Frauen hinsichtlich ihrer Akzeptanz der Art der gesammelten Daten bei KI-basierter Videoüberwachung (t(63.93)= 6.2431, p<.0001).
+
+t.test(filter (new.short, gender == "maennlich")$Speicherung, filter(new.short, gender == "weiblich")$Ort)
+#Es gibt einen signifikanten Unterschied zwischen Männern und Frauen hinsichtlich ihrer Akzeptanz des Ortes bei KI-basierter Videoüberwachung (t(57.94)= 9.0427, p<.0001).
+
+t.test(filter (new.short, gender == "maennlich")$Speicherung, filter(new.short, gender == "weiblich")$Erklärbarkeit)
+#Es gibt einen signifikanten Unterschied zwischen Männern und Frauen hinsichtlich der Akzeptanz von Erklärbarkeit bei KI-basierter Videoüberwachung (t(65.25)= 9.2022, p<.0001).
+
+
+mean(new.short$Ort)
+
+
+#Importances visualisieren 
 
 
 ```
