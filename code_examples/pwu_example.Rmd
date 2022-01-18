@@ -22,7 +22,7 @@ pwu %>%
   #ylim(-50,50) + #Grenzen der Y-Axen
   coord_flip() + #Umkehrehren der Axen damit sie vertikal liegens
   labs(x = "Level", y = "Teilnutzenwerte", fill="Szenario") +
-  scale_fill_discrete(label=c()) + #Gruppen benennen
+ scale_fill_discrete(label=c()) + #Gruppen benennen
   scale_fill_manual(values = c()) + #Farben der Gruppen
   scale_x_discrete(label=c( ))+ #Namen der Teilnutzenwerte
 

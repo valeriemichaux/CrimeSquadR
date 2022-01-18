@@ -9,6 +9,9 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(psych)
 library(ggplot2)
+library(fun)
+library(colorspace)
+library(Hmisc)
 
 ```
 
@@ -20,7 +23,7 @@ utilities<- readr::read_csv("data/Utilities.csv")
 impo<- readr::read_csv2("data/Importances.csv")
 
 
-importances.geschlecht<- readr::read_csv2("data/Importances_geschlecht2.csv")
+importances.geschlecht<- readr::read_csv2("data/Importances_geschlecht.csv")
 
 bind_cols(datacleaning, utilities, impo)-> new
 
@@ -69,9 +72,57 @@ t.test(filter (new.short, gender == "maennlich")$Speicherung, filter(new.short, 
 
 mean(new.short$Ort)
 
+```
 
-#Importances visualisieren 
+```{r}
+#Importances (nach Geschelchtern) visualisieren 
+
+```
 
 
+
+
+```{r}
+#partworth utilities visualisieren 
+
+pwu<- new.short%>% select("Konzert", "Bahnhof","Einkaufsstraße","Bewegungsverlauf","Gesichtserkennung","Verdächtige Gegenstände", "KI liefert Erklärung", "KI liefert keine Erklärung", "Sofortige Löschung", "Löschung nach 3 Monaten", "Dauerhafte Speicherung")%>%  pivot_longer(cols = everything(), names_to="pwu", values_to="score")
+
+
+# Dieser Datensatz hat nun 1056 Zeilen wegen 11 (pwus)x 96 Probanden 
+colnames(new.short)
+
+pwu$pwu <- factor(
+  pwu$pwu,
+  levels = c
+  (
+    "Konzert",
+    "Bahnhof",
+    "Einkaufsstraße",
+    "Bewegungsverlauf",
+    "Gesichtserkennung",
+    "Verdächtige Gegenstände",
+    "KI liefert Erklärung",
+    "KI liefert keine Erklärung",
+    "Sofortige Löschung",
+    "Löschung nach 3 Monaten",
+    "Dauerhafte Speicherung"
+  )
+)
+
+
+pwu%>%
+  ggplot+
+  aes(x=pwu, y=score)+
+   stat_summary(geom = "bar", position = position_dodge(), color="#B0BAC3", fill="#B0BAC3") +
+  stat_summary(fun.y = mean, geom = "point", size=0.8)+
+  #stat_summary(geom="text", aes(label=sprintf("%1.2f%%", ..y..)), size=3, position = position_dodge(width = 0.90)) +
+  stat_summary(fun.data = mean_cl_normal, geom = "errorbar", width=0.5, size=0.4, alpha=0.5) +
+  coord_flip()+
+  labs(x="Level", y="Teilnutzenwerte")+
+  scale_x_discrete(label=c("Konzert","Bahnhof","Einkaufsstraße","Bewegungsverlauf","Gesichtserkennung","Verdächtige Gegenstände", "KI liefert Erklärung", "KI liefert keine Erklärung", "Sofortige Löschung", "Löschung nach 3 Monaten", "Dauerhafte Speicherung"))+
+theme_classic()
+
+#erstes Grüst, allerdings müsssen die Farben Skalenbeschriftungen noch angepasst werden 
+                                    
 ```
 
