@@ -40,6 +40,8 @@ min(new.short$age)
 max(new.short$age)
 sd(new.short$age)
 
+new.short %>%
+  ggplot(aes(x = age)) + geom_histogram()
 
 #new.short%>% 
   #mutate(gender = case_when(
@@ -56,6 +58,8 @@ sd(new.short$age)
 
 
 #Code Bsp. t-Test
+
+t.test(filter (new.short, gender == "maennlich")$KUT, filter(new.short, gender == "weiblich")$KUT)
 
 t.test(filter (new.short, gender == "maennlich")$Speicherung, filter(new.short, gender == "weiblich")$Speicherung)
 
