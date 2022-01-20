@@ -12,6 +12,7 @@ library(ggplot2)
 library(fun)
 library(colorspace)
 library(Hmisc)
+library(cowplot)
 
 ```
 
@@ -71,6 +72,17 @@ t.test(filter (new.short, gender == "maennlich")$Erklärbarkeit, filter(new.shor
 
 
 mean(new.short$Ort)
+
+```
+```{r}
+#Visualisierung Relative WIchtigkeit der Merkmale
+
+importances.geschlecht %>%
+  ggplot(aes(x = Total, y = fct_reorder(Attribute, Total))) + geom_col(fill = "lightblue") +
+  scale_x_continuous(limits = c(0, 50), breaks = c(0, 10, 20, 30, 40, 50), expand = c(0.02,0.02)) +
+  scale_y_discrete(expand = c(0,0)) +
+  labs(x = "Relative Wichtigkeit der Merkmale (%)", y = "", title = "Das Merkmal Datenspeicherung ist am wichtigsten hinlänglich\n der Akzeptanz ki-basierter Videoüberwachungssysteme", subtitle = "") +
+  theme_minimal_vgrid(12) -> plot_Importances_General
 
 ```
 
