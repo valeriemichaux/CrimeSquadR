@@ -115,14 +115,16 @@ pwu%>%
   aes(x=pwu, y=score)+
    stat_summary(geom = "bar", position = position_dodge(), color="#B0BAC3", fill="#B0BAC3") +
   stat_summary(fun.y = mean, geom = "point", size=0.8)+
-  #stat_summary(geom="text", aes(label=sprintf("%1.2f%%", ..y..)), size=3, position = position_dodge(width = 0.90)) +
   stat_summary(fun.data = mean_cl_normal, geom = "errorbar", width=0.5, size=0.4, alpha=0.5) +
+ #stat_summary(geom="text", aes(label=sprintf("%1.2f%%", ..y..)), size=3, position) +
   coord_flip()+
+  #ylim(-100,100) +
+   scale_y_continuous(limits = c(-100, 100), breaks = c(-100,-50,0,50,100)) +
   labs(x="Level", y="Teilnutzenwerte")+
   scale_x_discrete(label=c("Konzert","Bahnhof","Einkaufsstraße","Bewegungsverlauf","Gesichtserkennung","Verdächtige Gegenstände", "KI liefert Erklärung", "KI liefert keine Erklärung", "Sofortige Löschung", "Löschung nach 3 Monaten", "Dauerhafte Speicherung"))+
 theme_classic()
 
-#erstes Grüst, allerdings müsssen die Farben Skalenbeschriftungen noch angepasst werden 
+#erstes Grüst, allerdings müsssen die Skalenbeschriftungen noch angepasst werden 
                                     
 ```
 
