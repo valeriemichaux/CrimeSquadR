@@ -60,14 +60,14 @@ t.test(filter (new.short, gender == "maennlich")$Speicherung, filter(new.short, 
 
 #Es gibt keinen signifikanten Unterschied zwischen Männern und Frauen hinsichtlich der Akzeptanz von Datenspeicherung bei KI-basierter Videoüberwachung (t(78.67)= -0.34897, p=.728). 
 
-t.test(filter (new.short, gender == "maennlich")$Speicherung, filter(new.short, gender == "weiblich")$Datenpartikel)
-#Es gibt einen signifikanten Unterschied zwischen Männern und Frauen hinsichtlich ihrer Akzeptanz der Art der gesammelten Daten bei KI-basierter Videoüberwachung (t(63.93)= 6.2431, p<.0001).
+t.test(filter (new.short, gender == "maennlich")$Datenpartikel, filter(new.short, gender == "weiblich")$Datenpartikel)
+#Es gibt keinen signifikanten Unterschied zwischen Männern und Frauen hinsichtlich ihrer Akzeptanz der Art der gesammelten Daten bei KI-basierter Videoüberwachung (t(75.81)= 0.07796, p=.9381).
 
-t.test(filter (new.short, gender == "maennlich")$Speicherung, filter(new.short, gender == "weiblich")$Ort)
-#Es gibt einen signifikanten Unterschied zwischen Männern und Frauen hinsichtlich ihrer Akzeptanz des Ortes bei KI-basierter Videoüberwachung (t(57.94)= 9.0427, p<.0001).
+t.test(filter (new.short, gender == "maennlich")$Ort, filter(new.short, gender == "weiblich")$Ort)
+#Es gibt keinen signifikanten Unterschied zwischen Männern und Frauen hinsichtlich ihrer Akzeptanz des Ortes bei KI-basierter Videoüberwachung (t(93.95)= -1.3207, p=.1898).
 
-t.test(filter (new.short, gender == "maennlich")$Speicherung, filter(new.short, gender == "weiblich")$Erklärbarkeit)
-#Es gibt einen signifikanten Unterschied zwischen Männern und Frauen hinsichtlich der Akzeptanz von Erklärbarkeit bei KI-basierter Videoüberwachung (t(65.25)= 9.2022, p<.0001).
+t.test(filter (new.short, gender == "maennlich")$Erklärbarkeit, filter(new.short, gender == "weiblich")$Erklärbarkeit)
+#Es gibt keinen signifikanten Unterschied zwischen Männern und Frauen hinsichtlich der Akzeptanz von Erklärbarkeit bei KI-basierter Videoüberwachung (t(90.97)= 1.4364, p=.1543).
 
 
 mean(new.short$Ort)

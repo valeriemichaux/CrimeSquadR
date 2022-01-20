@@ -62,8 +62,6 @@ raw.short %>%
     jobtype == 7 ~ "Zurzeit arbeitssuchend"
     )) -> raw.short
 
-#Dieser Code funktioniert nicht, keine Ahnung wieso 
-
 raw.short %>% 
   mutate(education = case_when(
     education == 1 ~ "Kein Schulabschluss",
