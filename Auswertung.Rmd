@@ -23,8 +23,7 @@ utilities<- readr::read_csv("data/Utilities.csv")
 
 impo<- readr::read_csv2("data/Importances.csv")
 
-
-importances.geschlecht<- readr::read_csv2("data/Importances_geschlecht.csv")
+importances.incl_SD<- readr::read_csv2("data/Importances_incl_SD.csv")
 
 bind_cols(datacleaning, utilities, impo)-> new
 
@@ -79,10 +78,10 @@ mean(new.short$Ort)
 
 ```
 ```{r}
-#Visualisierung Relative WIchtigkeit der Merkmale
+#Visualisierung Relative Wichtigkeit der Merkmale
 
-importances.geschlecht %>%
-  ggplot(aes(x = Total, y = fct_reorder(Attribute, Total))) + geom_col(fill = "lightblue") +
+importances.incl_SD %>%
+  ggplot(aes(x = Total, y = fct_reorder(Attribute, Total))) + geom_col(fill = "lightblue") + geom_errorbarh(aes(xmin = Lower, xmax = Upper)) +
   scale_x_continuous(limits = c(0, 50), breaks = c(0, 10, 20, 30, 40, 50), expand = c(0.02,0.02)) +
   scale_y_discrete(expand = c(0,0)) +
   labs(x = "Relative Wichtigkeit der Merkmale (%)", y = "", title = "Das Merkmal Datenspeicherung ist am wichtigsten hinlänglich\n der Akzeptanz ki-basierter Videoüberwachungssysteme", subtitle = "") +
@@ -92,6 +91,8 @@ importances.geschlecht %>%
 
 ```{r}
 #Importances (nach Geschelchtern) visualisieren 
+
+
 
 ```
 
