@@ -84,10 +84,10 @@ mean(new.short$Ort)
 #Visualisierung Relative Wichtigkeit der Merkmale
 
 importances.incl_SD %>%
-  ggplot(aes(x = Total, y = fct_reorder(Attribute, Total))) + geom_col(fill = "lightblue") + geom_errorbarh(aes(xmin = Lower, xmax = Upper)) +
+  ggplot(aes(x = Total, y = fct_reorder(Attribute, Total))) + geom_col(fill = "lightblue") + geom_errorbar(aes(xmin = Total - SD, xmax = Total + SD), width = 0.2) +
   scale_x_continuous(limits = c(0, 50), breaks = c(0, 10, 20, 30, 40, 50), expand = c(0.02,0.02)) +
   scale_y_discrete(expand = c(0,0)) +
-  labs(x = "Relative Wichtigkeit der Merkmale (%)", y = "", title = "Das Merkmal Datenspeicherung ist am wichtigsten hinlänglich\n der Akzeptanz ki-basierter Videoüberwachungssysteme", subtitle = "") +
+  labs(x = "Relative Wichtigkeit der Merkmale (%)", y = "", title = "Das Merkmal Datenspeicherung ist am wichtigsten hinlänglich\nder Akzeptanz ki-basierter Videoüberwachungssysteme", subtitle = "") +
   theme_minimal_vgrid(12) -> plot_Importances_General
 
 
@@ -96,6 +96,15 @@ plot_Importances_General
 
 ```{r}
 #Importances (nach Geschelchtern) visualisieren 
+
+importances.longer %>%
+  ggplot(aes(x = score, y = fct_reorder(Attribute, score), fill = gender)) + geom_col(position = "dodge") + 
+  geom_errorbar(aes(xmin = score - SD, xmax = score + SD), position= position_dodge(0.9), width = 0.2) +
+  scale_x_continuous(limits = c(0, 50), breaks = c(0, 10, 20, 30, 40, 50), expand = c(0.02,0.02)) +
+  scale_y_discrete(expand = c(0,0)) +
+  labs(x = "Relative Wichtigkeit der Merkmale (%)", y = "", title = "Es gibt keine signifikanten Unterschiede bei der Bewertung\nder Merkmale in Bezug auf das Geschlecht ", subtitle = "") +
+  scale_fill_discrete(name = "", labels = c("männlich", "weiblich")) +
+  theme_minimal_vgrid(12) -> plot_Importances_gender
 
 
 
