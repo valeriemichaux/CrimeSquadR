@@ -14,6 +14,11 @@ library(colorspace)
 library(Hmisc)
 library(cowplot)
 library(svglite)
+library(extrafont)
+
+font_import()
+
+
 
 ```
 
@@ -81,6 +86,7 @@ t.test(filter (new.short, gender == "maennlich")$Erklärbarkeit, filter(new.shor
 mean(new.short$Ort)
 
 ```
+
 ```{r}
 #Visualisierung Relative Wichtigkeit der Merkmale
 
@@ -107,6 +113,8 @@ importances.longer %>%
   scale_fill_discrete(name = "", labels = c("männlich", "weiblich")) +
   theme_minimal_vgrid(12) -> plot_Importances_gender
 
+plot_Importances_gender
+
 
 
 ```
@@ -116,6 +124,8 @@ importances.longer %>%
 
 ```{r}
 #partworth utilities visualisieren 
+
+#windowsFonts(A = windowsFont("Times New Roman"))
 
 pwu<- new.short%>% select("Konzert", "Bahnhof","Einkaufsstraße","Bewegungsverlauf","Gesichtserkennung","Verdächtige Gegenstände", "KI liefert Erklärung", "KI liefert keine Erklärung", "Sofortige Löschung", "Löschung nach 3 Monaten", "Dauerhafte Speicherung")%>%  pivot_longer(cols = everything(), names_to="pwu", values_to="score")
 
@@ -145,20 +155,23 @@ pwu%>%
   ggplot+
   aes(x=pwu, y=score)+
    stat_summary(geom = "bar", position = position_dodge(), color="#808080", fill="#c2c2c2") +
-  stat_summary(fun.y = mean, geom = "point", size=0.2)+
-  #stat_summary(geom="text", aes(label=sprintf("%1.2f%%", ..y..)), size=3, position= position_dodge(width = 0.09)) +
  stat_summary(fun.data = mean_cl_normal, geom = "errorbar", width=0.5, size=0.4, alpha=0.5) +
   coord_flip()+
+  stat_summary(geom="text", aes(label=sprintf("%1.2f%%", ..y..)), size=3, position= position_dodge(width = 0.09)) +
   labs(x="", y="Teilnutzenwerte der Merkmale")+
   scale_x_discrete(label=c("Konzert","Bahnhof","Einkaufsstraße","Bewegungsverlauf","Gesichtserkennung","Verdächtige Gegenstände", "KI liefert Erklärung", "KI liefert keine Erklärung", "Sofortige Löschung", "Löschung nach 3 Monaten", "Dauerhafte Speicherung"))+
-   #scale_y_continuous(limits= c(-150,150), breaks=c(-100,-50,0,50,100), labels = c("-100", "-50", "0","50", "100"), expand = c(0.00001,0.00001))+
+  #ylim(-250,100)+
 theme_minimal_vgrid()
 
 
- ggsave('data/pwu3.png', width = 20, height = 10, units = "cm", dpi=300)
+ ggsave('data/pwu4.png', width = 20, height = 10, units = "cm", dpi=300)
 
- #stat_summary(geom="text", aes(label=sprintf("%1.2f%%", ..y..)), size=3, position= position_dodge(width = 0.09)) +
-  #xlim(-100,100)+
+ # scale_y_continuous(limits= c(-200,200), breaks=c(-100,-50,0,50,100), labels = c("-100", "-50", "0","50", "100"), expand =     c(0,00000001,0,00000001))
+  #ylim(-250,100)+
+  #stat_summary(fun.y = mean, geom = "point", size=0.2)+
+  #stat_summary(geom="text", aes(label=sprintf("%1.2f%%", ..y..)), size=3, position= position_dodge(width = 0.09)) +
+ 
+
 
 #erstes Grüst, allerdings müsssen die Skalenbeschriftungen noch angepasst werden 
                                     

@@ -1,0 +1,97 @@
+"","RespNum","gender","age","education","jobtype","KUT","GAAIS"
+"1",1,"weiblich",26,"Fach- oder Hochschulabschluss","Angestellte*r",5.125,4.7
+"2",2,"weiblich",58,"Mittlere Reife/Realschulabschluss","Hausfrau/Hausmann",2.875,3.3
+"3",4,"weiblich",25,"Fach- oder Hochschulabschluss","Angestellte*r",3.875,3.5
+"4",7,"weiblich",25,"Fach- oder Hochschulabschluss","Student*in",3.75,4
+"5",8,"maennlich",19,"Mittlere Reife/Realschulabschluss","Schueler*in",4.5,4.3
+"6",9,"maennlich",25,"Fach-/Allgemeine Hochschulreife","Zurzeit arbeitssuchend",4.375,2.4
+"7",11,"weiblich",22,"Fach- oder Hochschulabschluss","Student*in",4.625,3.5
+"8",12,"maennlich",26,"Fach- oder Hochschulabschluss","Angestellte*r",5.125,4.8
+"9",13,"maennlich",24,"Fach- oder Hochschulabschluss","Angestellte*r",5.375,5
+"10",14,"weiblich",58,"Fach- oder Hochschulabschluss","Angestellte*r",4.875,4
+"11",16,"maennlich",25,"Fach- oder Hochschulabschluss","Student*in",2.875,4.7
+"12",17,"maennlich",26,"Fach- oder Hochschulabschluss","Angestellte*r",4.375,4
+"13",18,"maennlich",25,"Fach- oder Hochschulabschluss","Student*in",4.75,4.1
+"14",20,"maennlich",26,"Fach- oder Hochschulabschluss","Angestellte*r",4.75,3.6
+"15",21,"maennlich",60,"Fach-/Allgemeine Hochschulreife","Hausfrau/Hausmann",3.75,3.7
+"16",22,"maennlich",59,"Fach- oder Hochschulabschluss","Angestellte*r",4.125,3.1
+"17",23,"weiblich",25,"Fach- oder Hochschulabschluss","Student*in",4.875,4.7
+"18",24,"weiblich",26,"Fach- oder Hochschulabschluss","Student*in",5.5,5.4
+"19",25,"weiblich",24,"Fach- oder Hochschulabschluss","Student*in",3.5,3.5
+"20",26,"weiblich",26,"Fach- oder Hochschulabschluss","Angestellte*r",3.5,4.4
+"21",27,"weiblich",29,"Fach- oder Hochschulabschluss","Angestellte*r",4.75,4.4
+"22",28,"maennlich",28,"Fach- oder Hochschulabschluss","Angestellte*r",5.5,4.6
+"23",30,"weiblich",23,"Fach- oder Hochschulabschluss","Student*in",6,4.3
+"24",31,"weiblich",23,"Fach- oder Hochschulabschluss","Student*in",4.25,3.4
+"25",32,"maennlich",24,"Fach- oder Hochschulabschluss","Student*in",4.875,4.4
+"26",35,"weiblich",23,"Fach- oder Hochschulabschluss","Student*in",5.75,4.8
+"27",37,"weiblich",23,"Fach- oder Hochschulabschluss","Student*in",3,3.7
+"28",40,"weiblich",23,"Fach- oder Hochschulabschluss","Student*in",3.5,3.4
+"29",42,"maennlich",23,"Fach-/Allgemeine Hochschulreife","Angestellte*r",4.875,3.6
+"30",44,"weiblich",23,"Fach- oder Hochschulabschluss","Angestellte*r",4.5,4.3
+"31",45,"weiblich",23,"Fach- oder Hochschulabschluss","Angestellte*r",4.625,4.5
+"32",46,"weiblich",23,"Fach- oder Hochschulabschluss","Student*in",4.75,4.1
+"33",47,"maennlich",26,"Fach- oder Hochschulabschluss","Student*in",3.5,4.1
+"34",49,"weiblich",23,"Fach- oder Hochschulabschluss","Student*in",3.75,4.3
+"35",50,"maennlich",18,"Fach- oder Hochschulabschluss","Student*in",4.875,4.3
+"36",52,"weiblich",23,"Fach- oder Hochschulabschluss","Student*in",5.25,4.7
+"37",53,"weiblich",54,"Fach- oder Hochschulabschluss","Angestellte*r",3.875,3.1
+"38",54,"maennlich",55,"Berufsausbildung","Angestellte*r",5.75,5.2
+"39",55,"weiblich",53,"Mittlere Reife/Realschulabschluss","Hausfrau/Hausmann",3.375,4.2
+"40",57,"weiblich",23,"Fach- oder Hochschulabschluss","Student*in",5.25,5
+"41",61,"weiblich",54,"Berufsausbildung","Angestellte*r",4.5,3.6
+"42",62,"weiblich",21,"Fach-/Allgemeine Hochschulreife","Student*in",4,4.2
+"43",64,"weiblich",34,"Fach- oder Hochschulabschluss","Angestellte*r",3.625,3.4
+"44",65,"weiblich",24,"Fach-/Allgemeine Hochschulreife","Angestellte*r",4.625,4
+"45",68,"weiblich",22,"Fach- oder Hochschulabschluss","Student*in",4.25,4.2
+"46",69,"weiblich",22,"Fach- oder Hochschulabschluss","Student*in",4.375,3.7
+"47",72,"weiblich",25,"Fach- oder Hochschulabschluss","Angestellte*r",4.25,3.8
+"48",77,"weiblich",57,"Fach-/Allgemeine Hochschulreife","Angestellte*r",3.125,4.2
+"49",78,"maennlich",42,"Fach- oder Hochschulabschluss","Angestellte*r",4.875,4.5
+"50",79,"maennlich",47,"Fach-/Allgemeine Hochschulreife","Angestellte*r",5.5,2.1
+"51",80,"weiblich",23,"Fach- oder Hochschulabschluss","Student*in",4.375,4.1
+"52",83,"weiblich",29,"Fach- oder Hochschulabschluss","Angestellte*r",5,3.9
+"53",84,"maennlich",31,"Fach- oder Hochschulabschluss","Angestellte*r",6,4.6
+"54",86,"weiblich",24,"Berufsausbildung","Student*in",5.125,4.3
+"55",87,"maennlich",34,"Fach- oder Hochschulabschluss","Angestellte*r",4.375,4.1
+"56",88,"maennlich",25,"Fach- oder Hochschulabschluss","Student*in",4.25,3.5
+"57",89,"maennlich",30,"Fach- oder Hochschulabschluss","Angestellte*r",4.125,4.5
+"58",91,"weiblich",24,"Fach- oder Hochschulabschluss","Student*in",4.375,3.9
+"59",93,"maennlich",57,"Fach- oder Hochschulabschluss","Angestellte*r",2.125,3.2
+"60",94,"weiblich",55,"Fach-/Allgemeine Hochschulreife","Hausfrau/Hausmann",3.75,3.9
+"61",95,"maennlich",27,"Fach- oder Hochschulabschluss","Angestellte*r",5.125,4.5
+"62",100,"weiblich",27,"Fach- oder Hochschulabschluss","Student*in",5.375,4.6
+"63",101,"weiblich",22,"Fach-/Allgemeine Hochschulreife","Angestellte*r",4,3.7
+"64",103,"weiblich",22,"Fach-/Allgemeine Hochschulreife","Student*in",4.75,4.3
+"65",106,"weiblich",22,"Fach-/Allgemeine Hochschulreife","Student*in",5,5.1
+"66",107,"maennlich",23,"Fach-/Allgemeine Hochschulreife","Student*in",4.875,4.6
+"67",108,"maennlich",21,"Fach-/Allgemeine Hochschulreife","Student*in",5.25,4.3
+"68",109,"maennlich",23,"Fach-/Allgemeine Hochschulreife","Student*in",4.125,3.6
+"69",110,"weiblich",23,"Fach-/Allgemeine Hochschulreife","Student*in",4,4.1
+"70",111,"weiblich",23,"Fach- oder Hochschulabschluss","Student*in",4.125,4.8
+"71",113,"maennlich",31,"Fach- oder Hochschulabschluss","Angestellte*r",5.25,3.2
+"72",114,"maennlich",26,"Fach-/Allgemeine Hochschulreife","Student*in",6,5.1
+"73",116,"maennlich",60,"Fach- oder Hochschulabschluss","Angestellte*r",5.5,4.8
+"74",117,"weiblich",25,"Fach- oder Hochschulabschluss","Student*in",5.125,2.3
+"75",119,"weiblich",35,"Fach-/Allgemeine Hochschulreife","Student*in",2.75,4.6
+"76",124,"maennlich",26,"Fach- oder Hochschulabschluss","Angestellte*r",5.75,4
+"77",125,"weiblich",26,"Fach- oder Hochschulabschluss","Angestellte*r",5.375,5
+"78",127,"weiblich",40,"Fach- oder Hochschulabschluss","Angestellte*r",3.25,3.5
+"79",128,"weiblich",57,"Berufsausbildung","Angestellte*r",4,3
+"80",129,"weiblich",54,"Promotion","Angestellte*r",4.5,4.1
+"81",131,"maennlich",26,"Fach- oder Hochschulabschluss","Student*in",5.25,4.1
+"82",132,"maennlich",23,"Berufsausbildung","Student*in",5.375,5.2
+"83",133,"weiblich",24,"Fach- oder Hochschulabschluss","Student*in",4.625,4.3
+"84",136,"weiblich",25,"Fach-/Allgemeine Hochschulreife","Student*in",3.625,4.7
+"85",138,"maennlich",25,"Fach- oder Hochschulabschluss","Student*in",4.875,4.5
+"86",139,"maennlich",26,"Fach-/Allgemeine Hochschulreife","Student*in",5,4.4
+"87",140,"maennlich",23,"Fach-/Allgemeine Hochschulreife","Student*in",4.625,5.1
+"88",141,"weiblich",31,"Fach- oder Hochschulabschluss","Angestellte*r",3.375,5.6
+"89",142,"weiblich",38,"Fach- oder Hochschulabschluss","Angestellte*r",5.125,3
+"90",148,"maennlich",26,"Fach- oder Hochschulabschluss","Student*in",4.75,3.5
+"91",149,"maennlich",20,"Mittlere Reife/Realschulabschluss","Schueler*in",4.25,3.9
+"92",151,"maennlich",25,"Fach- oder Hochschulabschluss","Angestellte*r",5.25,4.9
+"93",152,"maennlich",25,"Fach- oder Hochschulabschluss","Angestellte*r",5.5,4.4
+"94",153,"weiblich",24,"Fach- oder Hochschulabschluss","Student*in",3.625,4
+"95",155,"weiblich",23,"Berufsausbildung","Angestellte*r",5,3.4
+"96",156,"maennlich",24,"Fach- oder Hochschulabschluss","Student*in",4.875,4.9
