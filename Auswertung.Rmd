@@ -16,7 +16,7 @@ library(cowplot)
 library(svglite)
 library(extrafont)
 
-font_import()
+
 
 
 
