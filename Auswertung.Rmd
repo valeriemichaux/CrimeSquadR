@@ -13,6 +13,7 @@ library(fun)
 library(colorspace)
 library(Hmisc)
 library(cowplot)
+library(svglite)
 
 ```
 
@@ -134,15 +135,21 @@ pwu$pwu <- factor(
 pwu%>%
   ggplot+
   aes(x=pwu, y=score)+
-   stat_summary(geom = "bar", position = position_dodge(), color="#B0BAC3", fill="#B0BAC3") +
-  stat_summary(fun.y = mean, geom = "point", size=0.8)+
+   stat_summary(geom = "bar", position = position_dodge(), color="#808080", fill="#c2c2c2") +
+  stat_summary(fun.y = mean, geom = "point", size=0.2)+
+  #stat_summary(geom="text", aes(label=sprintf("%1.2f%%", ..y..)), size=3, position= position_dodge(width = 0.09)) +
  stat_summary(fun.data = mean_cl_normal, geom = "errorbar", width=0.5, size=0.4, alpha=0.5) +
- stat_summary(geom="text", aes(label=sprintf("%1.2f%%", ..y..)), size=3) +
   coord_flip()+
-   scale_x_continuous(limits = c(-100, 100), breaks = c(-100,-50,0,50,100)) +
-  labs(x="Level", y="Teilnutzenwerte der Merkmale")+
+  labs(x="", y="Teilnutzenwerte der Merkmale")+
   scale_x_discrete(label=c("Konzert","Bahnhof","Einkaufsstraße","Bewegungsverlauf","Gesichtserkennung","Verdächtige Gegenstände", "KI liefert Erklärung", "KI liefert keine Erklärung", "Sofortige Löschung", "Löschung nach 3 Monaten", "Dauerhafte Speicherung"))+
-theme_classic()
+   #scale_y_continuous(limits= c(-150,150), breaks=c(-100,-50,0,50,100), labels = c("-100", "-50", "0","50", "100"), expand = c(0.00001,0.00001))+
+theme_minimal_vgrid()
+
+
+ ggsave('data/pwu3.png', width = 20, height = 10, units = "cm", dpi=300)
+
+ #stat_summary(geom="text", aes(label=sprintf("%1.2f%%", ..y..)), size=3, position= position_dodge(width = 0.09)) +
+  #xlim(-100,100)+
 
 #erstes Grüst, allerdings müsssen die Skalenbeschriftungen noch angepasst werden 
                                     
