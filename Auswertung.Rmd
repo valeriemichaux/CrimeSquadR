@@ -50,7 +50,31 @@ sd(new.short$age)
 median(new.short$age)
 
 new.short %>%
-  ggplot(aes(x = age)) + geom_histogram()
+  ggplot(aes(x = age, fill = gender)) + geom_histogram() +
+  scale_fill_manual(values = c(maennlich = "#a0ced9", weiblich = "#ffc09f"), name = "", labels = c("männlich", "weiblich")) +
+  theme_minimal()
+
+#Alter und Geschlecht als Pyramide
+new.short %>%
+mutate(agegroup = case_when(age >= 55  & age <= 60 ~ '55-60',
+                                             age >= 50  & age <= 55 ~ '50-55',
+                                             age >= 45  & age <= 50 ~ '45-50',
+                            age >= 40  & age <= 45 ~ '40-45',
+                            age >= 35  & age <= 40 ~ '35-40',
+                            age >= 30  & age <= 35 ~ '30-35',
+                            age >= 25  & age <= 30 ~ '25-30',
+                            age >= 20  & age <= 25 ~ '20-25',
+                            age >= 15  & age <= 20 ~ '15-20')) -> new.short.age.groups
+new.short.age.groups %>% 
+ggplot(aes(x=as.factor(agegroup),fill=gender)) + 
+  geom_bar(data=subset(new.short.age.groups, gender=="weiblich")) + 
+  geom_bar(data=subset(new.short.age.groups, gender=="maennlich"),aes(y=..count..*(-1))) + 
+  scale_y_continuous(breaks=seq(-40,40,10),labels=abs(seq(-40,40,10))) + 
+  coord_flip() +
+  scale_fill_manual(values = c(maennlich = "#a0ced9", weiblich = "#ffc09f"), name = "", labels = c("männlich", "weiblich")) +
+  labs(title = "Altersverteilung in der Stichprobe", y = "Anzahl der Probanden", x = "Alter in Jahren") +
+  #scale_y_continuous(limits = c(-15, 15), breaks = c(-15, -10, -5,0, 5, 10, 15)) +
+  theme_minimal()
 
 #new.short%>% 
   #mutate(gender = case_when(
@@ -63,7 +87,7 @@ new.short %>%
   
 #T-Test: Welcher Geschlechtsunterschiede und Trade-Offs gibt es bei der Akzeptanzbewertung von KI-basierter Videoüberwachung?
 
-#UV: Geschelcht; Gruppen: Männlich& weiblich, AV: Speicherung
+#UV: Geschelcht; Gruppen: Männlich & weiblich, AV: Speicherung
 
 
 #Berechnung t-test
@@ -92,10 +116,10 @@ mean(new.short$Ort)
 #Visualisierung Relative Wichtigkeit der Merkmale
 
 importances.incl_SD %>%
-  ggplot(aes(x = Total, y = fct_reorder(Attribute, Total))) + geom_col(fill = "lightblue") + geom_errorbar(aes(xmin = Total - SD, xmax = Total + SD), width = 0.2) +
+  ggplot(aes(x = Total, y = fct_reorder(Attribute, Total))) + geom_col(fill = "#adf7b6") + geom_errorbar(aes(xmin = Total - SD, xmax = Total + SD), width = 0.2) +
   scale_x_continuous(limits = c(0, 50), breaks = c(0, 10, 20, 30, 40, 50), expand = c(0.02,0.02)) +
   scale_y_discrete(expand = c(0,0)) +
-  labs(x = "Relative Wichtigkeit der Merkmale (%)", y = "", title = "Das Merkmal Datenspeicherung ist am wichtigsten hinlänglich\nder Akzeptanz ki-basierter Videoüberwachungssysteme", subtitle = "") +
+  labs(x = "Relative Wichtigkeit der Merkmale (in %, Fehlerbalke zeigen Standardabweichung)", y = "", title = "Das Merkmal Datenspeicherung ist am wichtigsten hinlänglich\nder Akzeptanz ki-basierter Videoüberwachungssysteme", ) +
   theme_minimal_vgrid(12) -> plot_Importances_General
 
 
@@ -110,8 +134,8 @@ importances.longer %>%
   geom_errorbar(aes(xmin = score - SD, xmax = score + SD), position= position_dodge(0.9), width = 0.2) +
   scale_x_continuous(limits = c(0, 50), breaks = c(0, 10, 20, 30, 40, 50), expand = c(0.02,0.02)) +
   scale_y_discrete(expand = c(0,0)) +
-  labs(x = "Relative Wichtigkeit der Merkmale (%)", y = "", title = "Es gibt keine signifikanten Unterschiede bei der Bewertung\nder Merkmale in Bezug auf das Geschlecht ", subtitle = "") +
-  scale_fill_discrete(name = "", labels = c("männlich", "weiblich")) +
+  scale_fill_manual(values = c(m = "#a0ced9", w = "#ffc09f"), name = "", labels = c("männlich", "weiblich")) +
+  labs(x = "Relative Wichtigkeit der Merkmale (in %, Fehlerbalke zeigen Standardabweichung)", y = "", title = "Es gibt keine signifikanten Unterschiede bei der Bewertung\nder Merkmale in Bezug auf das Geschlecht ", subtitle = "") +
   theme_minimal_vgrid(12) -> plot_Importances_gender
 
 plot_Importances_gender
