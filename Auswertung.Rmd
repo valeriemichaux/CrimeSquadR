@@ -15,6 +15,7 @@ library(Hmisc)
 library(cowplot)
 library(svglite)
 library(extrafont)
+library(dplyr)
 
 
 
@@ -125,14 +126,30 @@ plot_Importances_gender
 ```{r}
 #partworth utilities visualisieren 
 
-#windowsFonts(A = windowsFont("Times New Roman"))
-
 pwu<- new.short%>% select("Konzert", "Bahnhof","Einkaufsstraße","Bewegungsverlauf","Gesichtserkennung","Verdächtige Gegenstände", "KI liefert Erklärung", "KI liefert keine Erklärung", "Sofortige Löschung", "Löschung nach 3 Monaten", "Dauerhafte Speicherung")%>%  pivot_longer(cols = everything(), names_to="pwu", values_to="score")
 
 
 # Dieser Datensatz hat nun 1056 Zeilen wegen 11 (pwus)x 96 Probanden 
-colnames(new.short)
 
+#Attribute im Df ergänzen 
+pwu%>% 
+  mutate(Attribut = case_when(
+  pwu == "Bahnhof" ~ "Ort", 
+  pwu == "Konzert" ~ "Ort", 
+  pwu == "Einkaufsstraße"~ "Ort", 
+  pwu == "Bewegungsverlauf" ~ "Datenpartikel",
+  pwu == "Gesichtserkennung" ~ "Datenpartikel",
+  pwu == "Verdächtige Gegenstände" ~ "Datenpartikel",
+  pwu == "KI liefert Erklärung"~ "Erklärbarkeit",
+  pwu == "KI liefert keine Erklärung"~ "Erklärbarkeit",
+  pwu == "Sofortige Löschung" ~ "Datenspeicherung", 
+  pwu == "Löschung nach 3 Monaten"~ "Datenspeicherung",
+  pwu == "Dauerhafte Speicherung" ~ "Datenspeicherung"))-> pwu
+
+
+#colnames(new.short)
+
+#Level ordnen 
 pwu$pwu <- factor(
   pwu$pwu,
   levels = c
@@ -151,10 +168,30 @@ pwu$pwu <- factor(
 )
 
 
+# Attribute ordnen 
+pwu$Attribut<- factor(pwu$Attribut, levels= c ("Datenspeicherung", "Erklärbarkeit", "Datenpartikel", "Ort"))
+
+pwu%>%
+  ggplot +
+  aes(x=pwu, y=score, fill = Attribut)+
+   stat_summary(geom = "bar", position = position_dodge()) +
+   #stat_summary(fun.data = mean_cl_normal, geom = "errorbar", width=0.5, size=0.4, alpha=0.5) +
+    coord_flip()+
+  stat_summary(geom="text", aes(label=sprintf("%1.2f%%", ..y..)), size=3, position= position_dodge(width = 0.09)) +
+  labs(x="", y="Teilnutzenwerte der Merkmale", fill= "Attribute")+
+  scale_fill_manual( values = c ("#adf7b6", "#ffc09f", "#ffee93","#a0ced9"))+
+  scale_x_discrete(label=c("Konzert","Bahnhof","Einkaufsstraße","Bewegungsverlauf","Gesichtserkennung","Verdächtige Gegenstände", "KI liefert Erklärung", "KI liefert keine Erklärung", "Sofortige Löschung", "Löschung nach 3 Monaten", "Dauerhafte Speicherung"))+  
+  geom_vline(xintercept = 3.52, linetype= "dashed", color= "#D4D4D4")+
+   geom_vline(xintercept = 6.52, linetype= "dashed", color= "#D4D4D4")+
+   geom_vline(xintercept = 8.53, linetype= "dashed", color= "#D4D4D4")+
+theme_minimal_vgrid()
+
+
+
+# Roberts Plot 
 pwu%>%
   ggplot+
   aes(x=pwu, y=score, fill = pwu)+
-  
    stat_summary(geom = "bar", position = position_dodge(), stat = "identity") +
    scale_fill_manual(values = c("Dauerhafte Speicherung" = "#adf7b6", "Löschung nach 3 Monaten" = "#adf7b6", "Sofortige Löschung" = "#adf7b6",
                                 "KI liefert keine Erklärung" = "#ffc09f", "KI liefert Erklärung" = "#ffc09f",
@@ -170,16 +207,17 @@ theme_minimal_vgrid() +
 guides(fill=guide_legend("Merkmale"))
 
 
- ggsave('data/pwu4.png', width = 20, height = 10, units = "cm", dpi=300)
+ggsave('data/pwu5.png', width = 20, height = 10, units = "cm", dpi=300)
 
+ 
+ 
+ 
+ #Back-Up
  # scale_y_continuous(limits= c(-200,200), breaks=c(-100,-50,0,50,100), labels = c("-100", "-50", "0","50", "100"), expand =     c(0,00000001,0,00000001))
   #ylim(-250,100)+
   #stat_summary(fun.y = mean, geom = "point", size=0.2)+
   #stat_summary(geom="text", aes(label=sprintf("%1.2f%%", ..y..)), size=3, position= position_dodge(width = 0.09)) +
  
-
-
-#erstes Grüst, allerdings müsssen die Skalenbeschriftungen noch angepasst werden 
                                     
 ```
 
