@@ -41,8 +41,6 @@ names(raw.short) <- codebook$variable
 
 # Faktoren werden in raw.short als numerics geliefert, wir müssen Zahlen also die richtigen Faktoren zuordnen
 
-raw.short %>% 
-  mutate_at(vars(gender, jobtype, education), as.factor) -> raw.short
 
 raw.short %>% 
   mutate(gender = case_when(
@@ -50,6 +48,7 @@ raw.short %>%
     gender == 2 ~ "weiblich",
     gender == 3 ~ "divers"
   )) -> raw.short
+
 
 raw.short %>% 
   mutate(jobtype = case_when(
@@ -73,6 +72,11 @@ raw.short %>%
     education == 7 ~ "Promotion",
     education == 8 ~ "Sonstiges"
   )) -> raw.short
+
+
+raw.short %>% 
+  mutate_at(vars(gender, jobtype, education), as.factor) -> raw.short
+
 
 # Skalen berechnen: ----
 

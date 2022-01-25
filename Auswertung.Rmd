@@ -69,11 +69,10 @@ new.short.age.groups %>%
 ggplot(aes(x=as.factor(agegroup),fill=gender)) + 
   geom_bar(data=subset(new.short.age.groups, gender=="weiblich")) + 
   geom_bar(data=subset(new.short.age.groups, gender=="maennlich"),aes(y=..count..*(-1))) + 
-  scale_y_continuous(breaks=seq(-40,40,10),labels=abs(seq(-40,40,10))) + 
   coord_flip() +
   scale_fill_manual(values = c(maennlich = "#a0ced9", weiblich = "#ffc09f"), name = "", labels = c("männlich", "weiblich")) +
   labs(title = "Altersverteilung in der Stichprobe", y = "Anzahl der Probanden", x = "Alter in Jahren") +
-  #scale_y_continuous(limits = c(-15, 15), breaks = c(-15, -10, -5,0, 5, 10, 15)) +
+  scale_y_continuous(limits = c(-30, 30), breaks = c(-30, -20, -10, 0, 10, 20, 30), labels=c( "30","20","10","0", "10", "20", "30")) +
   theme_minimal()
 
 #new.short%>% 
