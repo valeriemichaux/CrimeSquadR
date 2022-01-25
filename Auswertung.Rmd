@@ -17,13 +17,10 @@ library(svglite)
 library(extrafont)
 library(dplyr)
 
-
-
-
-
 ```
 
 ```{r}
+#Dataframes laden und Daten anpassen 
 datacleaning <- readr::read_csv("data/datacleaning.csv")
 
 utilities<- readr::read_csv("data/Utilities.csv")
@@ -41,18 +38,34 @@ new.short<-new[,c(-1, -9:-10, -22)]
 #colnames(new.short)
 
 names(new.short)[8:18]<- c("Konzert","Bahnhof","Einkaufsstraße","Bewegungsverlauf","Gesichtserkennung","Verdächtige Gegenstände", "KI liefert Erklärung", "KI liefert keine Erklärung", "Sofortige Löschung","Löschung nach 3 Monaten", "Dauerhafte Speicherung")
+```
 
+
+```{r}
 #Deskriptive Statistik 
+
+
 mean(new.short$age)
 min(new.short$age)
 max(new.short$age)
 sd(new.short$age)
 median(new.short$age)
 
+
+#new.short%>% 
+  #mutate(gender = case_when(
+    #gender == "maennlich" ~ 1,
+    #gender == "weiblich" ~ 2)) ->new.short
+
+#table(new.short$gender)
+#wir haben 41 Männer und 55 Frauen 
+
+#1.Versuch Plot ALter
 new.short %>%
   ggplot(aes(x = age, fill = gender)) + geom_histogram() +
   scale_fill_manual(values = c(maennlich = "#a0ced9", weiblich = "#ffc09f"), name = "", labels = c("männlich", "weiblich")) +
   theme_minimal()
+
 
 #Alter und Geschlecht als Pyramide
 new.short %>%
@@ -74,45 +87,11 @@ ggplot(aes(x=as.factor(agegroup),fill=gender)) +
   labs(title = "Altersverteilung in der Stichprobe", y = "Anzahl der Probanden", x = "Alter in Jahren") +
   scale_y_continuous(limits = c(-30, 30), breaks = c(-30, -20, -10, 0, 10, 20, 30), labels=c( "30","20","10","0", "10", "20", "30")) +
   theme_minimal()
-
-#new.short%>% 
-  #mutate(gender = case_when(
-    #gender == "maennlich" ~ 1,
-    #gender == "weiblich" ~ 2)) ->new.short
-
-#table(new.short$gender)
-#wir haben 41 Männer und 55 Frauen 
-
-  
-#T-Test: Welcher Geschlechtsunterschiede und Trade-Offs gibt es bei der Akzeptanzbewertung von KI-basierter Videoüberwachung?
-
-#UV: Geschelcht; Gruppen: Männlich & weiblich, AV: Speicherung
-
-
-#Berechnung t-test
-
-t.test(filter (new.short, gender == "maennlich")$KUT, filter(new.short, gender == "weiblich")$KUT)
-
-t.test(filter (new.short, gender == "maennlich")$Speicherung, filter(new.short, gender == "weiblich")$Speicherung)
-
-#Es gibt keinen signifikanten Unterschied zwischen Männern und Frauen hinsichtlich der Akzeptanz von Datenspeicherung bei KI-basierter Videoüberwachung (t(78.67)= -0.34897, p=.728). 
-
-t.test(filter (new.short, gender == "maennlich")$Datenpartikel, filter(new.short, gender == "weiblich")$Datenpartikel)
-#Es gibt keinen signifikanten Unterschied zwischen Männern und Frauen hinsichtlich ihrer Akzeptanz der Art der gesammelten Daten bei KI-basierter Videoüberwachung (t(75.81)= 0.07796, p=.9381).
-
-t.test(filter (new.short, gender == "maennlich")$Ort, filter(new.short, gender == "weiblich")$Ort)
-#Es gibt keinen signifikanten Unterschied zwischen Männern und Frauen hinsichtlich ihrer Akzeptanz des Ortes bei KI-basierter Videoüberwachung (t(93.95)= -1.3207, p=.1898).
-
-t.test(filter (new.short, gender == "maennlich")$Erklärbarkeit, filter(new.short, gender == "weiblich")$Erklärbarkeit)
-#Es gibt keinen signifikanten Unterschied zwischen Männern und Frauen hinsichtlich der Akzeptanz von Erklärbarkeit bei KI-basierter Videoüberwachung (t(90.97)= 1.4364, p=.1543).
-
-
-mean(new.short$Ort)
-
 ```
 
+
 ```{r}
-#Visualisierung Relative Wichtigkeit der Merkmale
+#Importances visualieren 
 
 importances.incl_SD %>%
   ggplot(aes(x = Total, y = fct_reorder(Attribute, Total))) + geom_col(fill = "#adf7b6") + geom_errorbar(aes(xmin = Total - SD, xmax = Total + SD), width = 0.2) +
@@ -139,10 +118,7 @@ importances.longer %>%
 
 plot_Importances_gender
 
-
-
 ```
-
 
 
 
@@ -194,6 +170,8 @@ pwu$pwu <- factor(
 # Attribute ordnen 
 pwu$Attribut<- factor(pwu$Attribut, levels= c ("Datenspeicherung", "Erklärbarkeit", "Datenpartikel", "Ort"))
 
+
+#Plot differenziert mit Farben
 pwu%>%
   ggplot +
   aes(x=pwu, y=score, fill = Attribut)+
@@ -211,36 +189,55 @@ theme_minimal_vgrid()
 
 
 
-# Roberts Plot 
+# Schwarz-weiß Plot
 pwu%>%
   ggplot+
-  aes(x=pwu, y=score, fill = pwu)+
+  aes(x=pwu, y=score)+
    stat_summary(geom = "bar", position = position_dodge(), stat = "identity") +
-   scale_fill_manual(values = c("Dauerhafte Speicherung" = "#adf7b6", "Löschung nach 3 Monaten" = "#adf7b6", "Sofortige Löschung" = "#adf7b6",
-                                "KI liefert keine Erklärung" = "#ffc09f", "KI liefert Erklärung" = "#ffc09f",
-                                "Verdächtige Gegenstände" = "#a0ced9", "Gesichtserkennung" = "#a0ced9", "Bewegungsverlauf" = "#a0ced9",
-                                "Einkaufsstraße" = "#ffee93", "Bahnhof" = "#ffee93", "Konzert" = "#ffee93")) +
- stat_summary(fun.data = mean_cl_normal, geom = "errorbar", width=0.5, size=0.4, alpha=0.5) +
-  coord_flip()+
   stat_summary(geom="text", aes(label=sprintf("%1.2f%%", ..y..)), size=3, position= position_dodge(width = 0.09)) +
+   stat_summary(fun.data = mean_cl_normal, geom = "errorbar", width=0.5, size=0.4, alpha=0.5) +
+  coord_flip()+
   labs(x="", y="Teilnutzenwerte der Merkmale")+
-  scale_x_discrete(label=c("Konzert","Bahnhof","Einkaufsstraße","Bewegungsverlauf","Gesichtserkennung","Verdächtige Gegenstände", "KI liefert Erklärung", "KI liefert keine Erklärung", "Sofortige Löschung", "Löschung nach 3 Monaten", "Dauerhafte Speicherung"))+
-  #ylim(-250,100)+
-theme_minimal_vgrid() +
-guides(fill=guide_legend("Merkmale"))
+   scale_x_discrete(label=c("Konzert","Bahnhof","Einkaufsstraße","Bewegungsverlauf","Gesichtserkennung","Verdächtige Gegenstände", "KI liefert Erklärung", "KI liefert keine Erklärung", "Sofortige Löschung", "Löschung nach 3 Monaten", "Dauerhafte Speicherung"))+
+theme_minimal_vgrid()
 
 
 ggsave('data/pwu5.png', width = 20, height = 10, units = "cm", dpi=300)
 
  
- 
- 
+
  #Back-Up
  # scale_y_continuous(limits= c(-200,200), breaks=c(-100,-50,0,50,100), labels = c("-100", "-50", "0","50", "100"), expand =     c(0,00000001,0,00000001))
   #ylim(-250,100)+
   #stat_summary(fun.y = mean, geom = "point", size=0.2)+
   #stat_summary(geom="text", aes(label=sprintf("%1.2f%%", ..y..)), size=3, position= position_dodge(width = 0.09)) +
- 
-                                    
+
+```
+
+
+
+```{r}
+#Inferenzstatistik 
+
+#T-Test: Welche Geschlechtsunterschiede und Trade-Offs gibt es bei der Akzeptanzbewertung von KI-basierter Videoüberwachung?
+#UV: Geschelcht; Gruppen: Männlich & weiblich, AV: Speicherung
+
+#Berechnung t-test
+
+t.test(filter (new.short, gender == "maennlich")$KUT, filter(new.short, gender == "weiblich")$KUT)
+
+t.test(filter (new.short, gender == "maennlich")$Speicherung, filter(new.short, gender == "weiblich")$Speicherung)
+
+#Es gibt keinen signifikanten Unterschied zwischen Männern und Frauen hinsichtlich der Akzeptanz von Datenspeicherung bei KI-basierter Videoüberwachung (t(78.67)= -0.34897, p=.728). 
+
+t.test(filter (new.short, gender == "maennlich")$Datenpartikel, filter(new.short, gender == "weiblich")$Datenpartikel)
+#Es gibt keinen signifikanten Unterschied zwischen Männern und Frauen hinsichtlich ihrer Akzeptanz der Art der gesammelten Daten bei KI-basierter Videoüberwachung (t(75.81)= 0.07796, p=.9381).
+
+t.test(filter (new.short, gender == "maennlich")$Ort, filter(new.short, gender == "weiblich")$Ort)
+#Es gibt keinen signifikanten Unterschied zwischen Männern und Frauen hinsichtlich ihrer Akzeptanz des Ortes bei KI-basierter Videoüberwachung (t(93.95)= -1.3207, p=.1898).
+
+t.test(filter (new.short, gender == "maennlich")$Erklärbarkeit, filter(new.short, gender == "weiblich")$Erklärbarkeit)
+#Es gibt keinen signifikanten Unterschied zwischen Männern und Frauen hinsichtlich der Akzeptanz von Erklärbarkeit bei KI-basierter Videoüberwachung (t(90.97)= 1.4364, p=.1543).
+
 ```
 
