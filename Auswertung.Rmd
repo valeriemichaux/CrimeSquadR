@@ -95,7 +95,7 @@ ggplot(aes(x=as.factor(agegroup),fill=gender)) +
 
 importances.incl_SD %>%
   ggplot(aes(x = Total, y = fct_reorder(Attribute, Total))) + geom_col(fill = "#adf7b6") + geom_errorbar(aes(xmin = Total - SD, xmax = Total + SD), width = 0.2) +
-  scale_x_continuous(limits = c(0, 50), breaks = c(0, 10, 20, 30, 40, 50), expand = c(0.02,0.02)) +
+  scale_x_continuous(limits = c(0, 65), breaks = c(0, 10, 20, 30, 40, 50, 60), expand = c(0.02,0.02)) +
   scale_y_discrete(expand = c(0,0)) +
   labs(x = "Relative Wichtigkeit der Merkmale (in %, Fehlerbalke zeigen Standardabweichung)", y = "", title = "Das Merkmal Datenspeicherung ist am wichtigsten hinlänglich\nder Akzeptanz ki-basierter Videoüberwachungssysteme", ) +
   theme_minimal_vgrid(12) -> plot_Importances_General
@@ -110,7 +110,7 @@ plot_Importances_General
 importances.longer %>%
   ggplot(aes(x = score, y = fct_reorder(Attribute, score), fill = gender)) + geom_col(position = "dodge") + 
   geom_errorbar(aes(xmin = score - SD, xmax = score + SD), position= position_dodge(0.9), width = 0.2) +
-  scale_x_continuous(limits = c(0, 50), breaks = c(0, 10, 20, 30, 40, 50), expand = c(0.02,0.02)) +
+  scale_x_continuous(limits = c(0, 70), breaks = c(0, 10, 20, 30, 40, 50, 60, 70), expand = c(0.02,0.02)) +
   scale_y_discrete(expand = c(0,0)) +
   scale_fill_manual(values = c(m = "#a0ced9", w = "#ffc09f"), name = "", labels = c("männlich", "weiblich")) +
   labs(x = "Relative Wichtigkeit der Merkmale (in %, Fehlerbalke zeigen Standardabweichung)", y = "", title = "Es gibt keine signifikanten Unterschiede bei der Bewertung\nder Merkmale in Bezug auf das Geschlecht ", subtitle = "") +
