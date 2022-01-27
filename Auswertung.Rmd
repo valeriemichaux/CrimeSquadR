@@ -16,6 +16,7 @@ library(cowplot)
 library(svglite)
 library(extrafont)
 library(dplyr)
+library(ggcorrplot)
 
 ```
 
@@ -238,6 +239,46 @@ t.test(filter (new.short, gender == "maennlich")$Ort, filter(new.short, gender =
 
 t.test(filter (new.short, gender == "maennlich")$Erklärbarkeit, filter(new.short, gender == "weiblich")$Erklärbarkeit)
 #Es gibt keinen signifikanten Unterschied zwischen Männern und Frauen hinsichtlich der Akzeptanz von Erklärbarkeit bei KI-basierter Videoüberwachung (t(90.97)= 1.4364, p=.1543).
+
+
+#Korrelationen Alter und Merkmale
+
+cor.test(new.short$age, new.short$Ort,  method="spearman")
+
+cor.test(new.short$age, new.short$Datenpartikel,  method="spearman")
+
+cor.test(new.short$age, new.short$Speicherung,  method="spearman")
+
+cor.test(new.short$age, new.short$Erklärbarkeit,  method="spearman")
+
+#Ergebnis: Es gib keinen signifikanten Zusammenhang zwischen dem Alter und den 4 untersuchten Merkmalen.
+
+#Korrelationen GAAIS und Merkmale
+
+cor.test(new.short$GAAIS, new.short$Ort,  method="spearman")
+
+cor.test(new.short$GAAIS, new.short$Datenpartikel,  method="spearman")
+
+cor.test(new.short$GAAIS, new.short$Speicherung,  method="spearman")
+
+cor.test(new.short$GAAIS, new.short$Erklärbarkeit,  method="spearman")
+
+#Ergebnis: Es gib keinen signifikanten Zusammenhang zwischen dem GAAIS und den 4 untersuchten Merkmalen.
+
+corr <- round(cor(new.short), 1)
+
+# Compute a matrix of correlation p-values
+p.mat <- cor_pmat(new.short)
+
+cor(new.short)
+
+new.short %>%
+  select(age, KUT, GAAIS, Ort, Datenpartikel, Speicherung, Erklärbarkeit) -> cor.data
+
+cor(cor.data, method = c("pearson", "spearman"))
+
+cor(cor.data, method = "spearman")
+
 
 ```
 
