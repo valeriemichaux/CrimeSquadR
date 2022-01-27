@@ -84,7 +84,7 @@ ggplot(aes(x=as.factor(agegroup),fill=gender)) +
   geom_bar(data=subset(new.short.age.groups, gender=="maennlich"),aes(y=..count..*(-1))) + 
   coord_flip() +
   scale_fill_manual(values = c(maennlich = "#a0ced9", weiblich = "#ffc09f"), name = "", labels = c("männlich", "weiblich")) +
-  labs(title = "Altersverteilung in der Stichprobe", y = "Anzahl der Probanden", x = "Alter in Jahren") +
+  labs(title = "Altersverteilung in der studentischen Stichprobe", y = "Anzahl der Probanden", x = "Alter in Jahren") +
   scale_y_continuous(limits = c(-30, 30), breaks = c(-30, -20, -10, 0, 10, 20, 30), labels=c( "30","20","10","0", "10", "20", "30")) +
   theme_minimal()
 ```
@@ -97,7 +97,7 @@ importances.incl_SD %>%
   ggplot(aes(x = Total, y = fct_reorder(Attribute, Total))) + geom_col(fill = "#adf7b6") + geom_errorbar(aes(xmin = Total - SD, xmax = Total + SD), width = 0.2) +
   scale_x_continuous(limits = c(0, 65), breaks = c(0, 10, 20, 30, 40, 50, 60), expand = c(0.02,0.02)) +
   scale_y_discrete(expand = c(0,0)) +
-  labs(x = "Relative Wichtigkeit der Merkmale (in %, Fehlerbalke zeigen Standardabweichung)", y = "", title = "Das Merkmal Datenspeicherung ist am wichtigsten hinlänglich\nder Akzeptanz ki-basierter Videoüberwachungssysteme", ) +
+  labs(x = "Relative Wichtigkeit der Merkmale in % (Fehlerbalke zeigen Standardabweichung)", y = "", title = "Das Merkmal Datenspeicherung ist am wichtigsten hinlänglich\nder Akzeptanz ki-basierter Videoüberwachungssysteme", ) +
   theme_minimal_vgrid(12) -> plot_Importances_General
 
 
@@ -113,7 +113,7 @@ importances.longer %>%
   scale_x_continuous(limits = c(0, 70), breaks = c(0, 10, 20, 30, 40, 50, 60, 70), expand = c(0.02,0.02)) +
   scale_y_discrete(expand = c(0,0)) +
   scale_fill_manual(values = c(m = "#a0ced9", w = "#ffc09f"), name = "", labels = c("männlich", "weiblich")) +
-  labs(x = "Relative Wichtigkeit der Merkmale (in %, Fehlerbalke zeigen Standardabweichung)", y = "", title = "Es gibt keine signifikanten Unterschiede bei der Bewertung\nder Merkmale in Bezug auf das Geschlecht ", subtitle = "") +
+  labs(x = "Relative Wichtigkeit der Merkmale in % (Fehlerbalke zeigen Standardabweichung)", y = "", title = "Es gibt keine signifikanten Unterschiede bei der Bewertung\nder Merkmale in Bezug auf das Geschlecht ", subtitle = "") +
   theme_minimal_vgrid(12) -> plot_Importances_gender
 
 plot_Importances_gender
