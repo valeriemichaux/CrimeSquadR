@@ -16,6 +16,7 @@ library(cowplot)
 library(svglite)
 library(extrafont)
 library(dplyr)
+library(plotrix)
 
 ```
 
@@ -29,7 +30,9 @@ impo<- readr::read_csv2("data/Importances.csv")
 
 importances.incl_SD<- readr::read_csv2("data/Importances_incl_SD.csv")
 
-importances.longer<- readr::read_csv2("data/Importanes_geschlecht_longer.csv")
+importances.incl_SE<- readr::read_csv2("data/Importances_incl_SE.csv")
+
+importances.longer<- readr::read_csv2("data/Importances_geschlecht.csv")
 
 bind_cols(datacleaning, utilities, impo)-> new
 
@@ -93,11 +96,19 @@ ggplot(aes(x=as.factor(agegroup),fill=gender)) +
 ```{r}
 #Importances visualieren 
 
-importances.incl_SD %>%
-  ggplot(aes(x = Total, y = fct_reorder(Attribute, Total))) + geom_col(fill = "#adf7b6") + geom_errorbar(aes(xmin = Total - SD, xmax = Total + SD), width = 0.2) +
+
+#std.error(new.short$Ort) (0.8649188)
+#std.error(new.short$Datenpartikel) (1.233226)
+#std.error(new.short$Erklärbarkeit) (1.114005)
+#std.error(new.short$Speicherung) (1.61019)
+
+
+
+importances.incl_SE %>%
+  ggplot(aes(x = Total, y = fct_reorder(Attribute, Total))) + geom_col(fill = "#adf7b6") + geom_errorbar(aes(xmin = Total - SE, xmax = Total + SE), width = 0.2) +
   scale_x_continuous(limits = c(0, 65), breaks = c(0, 10, 20, 30, 40, 50, 60), expand = c(0.02,0.02)) +
   scale_y_discrete(expand = c(0,0)) +
-  labs(x = "Relative Wichtigkeit der Merkmale in % (Fehlerbalke zeigen Standardabweichung)", y = "", title = "Das Merkmal Datenspeicherung ist am wichtigsten hinlänglich\nder Akzeptanz ki-basierter Videoüberwachungssysteme", ) +
+  labs(x = "Relative Wichtigkeit der Merkmale in % (Fehlerbalken zeigen den Standardfehler)", y = "", title = "Das Merkmal Datenspeicherung ist am wichtigsten hinlänglich\nder Akzeptanz ki-basierter Videoüberwachungssysteme", ) +
   theme_minimal_vgrid(12) -> plot_Importances_General
 
 
@@ -107,13 +118,31 @@ plot_Importances_General
 ```{r}
 #Importances (nach Geschelchtern) visualisieren 
 
+#Datensatz um Standardfehler erweitern
+#new.short%>%
+ # filter(gender == "weiblich") -> weiblich
+
+#std.error(weiblich$Ort) (1.275084)
+#std.error(weiblich$Datenpartikel) (1.487836)
+#std.error(weiblich$Erklärbarkeit)  ( 1.532869)
+#std.error(weiblich$Speicherung) (1.994798)
+
+#new.short%>%
+  #filter(gender== "maennlich") -> maennlich
+
+#std.error(maennlich$Ort) (1.070732)
+#std.error(maennlich$Datenpartikel) (2.109013)
+#std.error(maennlich$Erklärbarkeit) (1.581957)
+#std.error(maennlich$Speicherung) (2.681839)
+
+
 importances.longer %>%
   ggplot(aes(x = score, y = fct_reorder(Attribute, score), fill = gender)) + geom_col(position = "dodge") + 
-  geom_errorbar(aes(xmin = score - SD, xmax = score + SD), position= position_dodge(0.9), width = 0.2) +
+  geom_errorbar(aes(xmin = score - SE, xmax = score + SE), position= position_dodge(0.9), width = 0.2) +
   scale_x_continuous(limits = c(0, 70), breaks = c(0, 10, 20, 30, 40, 50, 60, 70), expand = c(0.02,0.02)) +
   scale_y_discrete(expand = c(0,0)) +
   scale_fill_manual(values = c(m = "#a0ced9", w = "#ffc09f"), name = "", labels = c("männlich", "weiblich")) +
-  labs(x = "Relative Wichtigkeit der Merkmale in % (Fehlerbalke zeigen Standardabweichung)", y = "", title = "Es gibt keine signifikanten Unterschiede bei der Bewertung\nder Merkmale in Bezug auf das Geschlecht ", subtitle = "") +
+  labs(x = "Relative Wichtigkeit der Merkmale in % (Fehlerbalke zeigen den Standardfehler)", y = "", title = "Es gibt keine signifikanten Unterschiede bei der Bewertung\nder Merkmale in Bezug auf das Geschlecht ", subtitle = "") +
   theme_minimal_vgrid(12) -> plot_Importances_gender
 
 plot_Importances_gender
@@ -176,7 +205,6 @@ pwu%>%
   ggplot +
   aes(x=pwu, y=score, fill = Attribut)+
    stat_summary(geom = "bar", position = position_dodge()) +
-   #stat_summary(fun.data = mean_cl_normal, geom = "errorbar", width=0.5, size=0.4, alpha=0.5) +
     coord_flip()+
   stat_summary(geom="text", aes(label=sprintf("%1.2f%%", ..y..)), size=3, position= position_dodge(width = 0.09)) +
   labs(x="", y="Teilnutzenwerte der Merkmale", fill= "Attribute")+
@@ -194,8 +222,9 @@ pwu%>%
   ggplot+
   aes(x=pwu, y=score)+
    stat_summary(geom = "bar", position = position_dodge(), stat = "identity") +
+  geom_errorbar(aes(xmin = score - std.error(score), xmax = score + std.error(score)), width = 0.2) +
   stat_summary(geom="text", aes(label=sprintf("%1.2f%%", ..y..)), size=3, position= position_dodge(width = 0.09)) +
-   stat_summary(fun.data = mean_cl_normal, geom = "errorbar", width=0.5, size=0.4, alpha=0.5) +
+  # stat_summary(fun.data = mean_cl_normal, geom = "errorbar", width=0.5, size=0.4, alpha=0.5) +
   coord_flip()+
   labs(x="", y="Teilnutzenwerte der Merkmale")+
    scale_x_discrete(label=c("Konzert","Bahnhof","Einkaufsstraße","Bewegungsverlauf","Gesichtserkennung","Verdächtige Gegenstände", "KI liefert Erklärung", "KI liefert keine Erklärung", "Sofortige Löschung", "Löschung nach 3 Monaten", "Dauerhafte Speicherung"))+
@@ -207,6 +236,7 @@ ggsave('data/pwu5.png', width = 20, height = 10, units = "cm", dpi=300)
  
 
  #Back-Up
+ #stat_summary(fun.data = mean_cl_normal, geom = "errorbar", width=0.5, size=0.4, alpha=0.5) +
  # scale_y_continuous(limits= c(-200,200), breaks=c(-100,-50,0,50,100), labels = c("-100", "-50", "0","50", "100"), expand =     c(0,00000001,0,00000001))
   #ylim(-250,100)+
   #stat_summary(fun.y = mean, geom = "point", size=0.2)+
@@ -278,9 +308,9 @@ cor.data %>%
 cor.matrix.plot()
 
 
-
-
 ```
+
+
 ```{r}
 
 ```
