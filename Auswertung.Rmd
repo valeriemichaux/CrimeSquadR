@@ -266,13 +266,6 @@ cor.test(new.short$GAAIS, new.short$Erklärbarkeit,  method="spearman")
 
 #Ergebnis: Es gib keinen signifikanten Zusammenhang zwischen dem GAAIS und den 4 untersuchten Merkmalen.
 
-corr <- round(cor(new.short), 1)
-
-# Compute a matrix of correlation p-values
-p.mat <- cor_pmat(new.short)
-
-cor(new.short)
-
 new.short %>%
   select(age, KUT, GAAIS, Ort, Datenpartikel, Speicherung, Erklärbarkeit) -> cor.data
 
