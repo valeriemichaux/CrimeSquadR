@@ -206,7 +206,13 @@ pwu%>%
   aes(x=pwu, y=score, fill = Attribut)+
    stat_summary(geom = "bar", position = position_dodge()) +
     coord_flip()+
-  stat_summary(geom="text", aes(label=sprintf("%1.2f%%", ..y..)), size=3, position= position_dodge(width = 0.09)) +
+  stat_summary(fun = mean,
+               geom = "pointrange",
+               fun.max = function(x) mean(x) + sd(x) / sqrt(length(x)),
+               fun.min = function(x) mean(x) - sd(x) / sqrt(length(x)), width= 0.2, size=0.2, alpha=0.5)+
+ # stat_summary(fun = mean,geom = "point") + # adds point fot the mean
+ # stat_summary(fun.data = mean_se, geom = "errorbar", width= 0.4, size=0.5, alpha=0.5) + #other function for se
+ # stat_summary(geom="text", aes(label=sprintf("%1.2f%%", ..y..)), size=3, position= position_dodge(width = 0.09)) + #insert percent values
   labs(x="", y="Teilnutzenwerte der Merkmale", fill= "Attribute")+
   scale_fill_manual( values = c ("#adf7b6", "#ffc09f", "#ffee93","#a0ced9"))+
   scale_x_discrete(label=c("Konzert","Bahnhof","Einkaufsstraße","Bewegungsverlauf","Gesichtserkennung","Verdächtige Gegenstände", "KI liefert Erklärung", "KI liefert keine Erklärung", "Sofortige Löschung", "Löschung nach 3 Monaten", "Dauerhafte Speicherung"))+  
@@ -236,7 +242,7 @@ ggsave('data/pwu5.png', width = 20, height = 10, units = "cm", dpi=300)
  
 
  #Back-Up
- #stat_summary(fun.data = mean_cl_normal, geom = "errorbar", width=0.5, size=0.4, alpha=0.5) +
+ #stat_summary(fun.data = mean_cl_normal, geom = "errorbar", width=0.5, size=0.4, alpha=0.5) + #mean_cl_normal from hmisc package calculates 95% confidence intervals
  # scale_y_continuous(limits= c(-200,200), breaks=c(-100,-50,0,50,100), labels = c("-100", "-50", "0","50", "100"), expand =     c(0,00000001,0,00000001))
   #ylim(-250,100)+
   #stat_summary(fun.y = mean, geom = "point", size=0.2)+
