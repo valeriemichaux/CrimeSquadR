@@ -17,6 +17,7 @@ library(svglite)
 library(extrafont)
 library(dplyr)
 library(plotrix)
+library(apaTables)
 
 ```
 
@@ -105,7 +106,9 @@ ggplot(aes(x=as.factor(agegroup),fill=gender)) +
 
 
 importances.incl_SE %>%
-  ggplot(aes(x = Total, y = fct_reorder(Attribute, Total))) + geom_col(fill = "#adf7b6") + geom_errorbar(aes(xmin = Total - SE, xmax = Total + SE), width = 0.2) +
+  ggplot(aes(x = Total, y = fct_reorder(Attribute, Total))) + 
+  geom_col(fill= c("Speicherung" = "#adf7b6", "Datenpartikel" = "#ffee93", "Erklärbarkeit" = "#ffc09f",  "Ort"= "#a0ced9")) + 
+  geom_errorbar(aes(xmin = Total - SE, xmax = Total + SE), width = 0.2) +
   scale_x_continuous(limits = c(0, 65), breaks = c(0, 10, 20, 30, 40, 50, 60), expand = c(0.02,0.02)) +
   scale_y_discrete(expand = c(0,0)) +
   labs(x = "Relative Wichtigkeit der Merkmale in % (Fehlerbalken zeigen den Standardfehler)", y = "", title = "Das Merkmal Datenspeicherung ist am wichtigsten hinlänglich\nder Akzeptanz ki-basierter Videoüberwachungssysteme", ) +
@@ -113,6 +116,10 @@ importances.incl_SE %>%
 
 
 plot_Importances_General
+
+
+#ggsave('data/importances.png', width = 20, height = 10, units = "cm", dpi=300)
+
 ```
 
 ```{r}
@@ -146,6 +153,9 @@ importances.longer %>%
   theme_minimal_vgrid(12) -> plot_Importances_gender
 
 plot_Importances_gender
+
+
+#ggsave('data/importances_gender.png', width = 20, height = 10, units = "cm", dpi=300)
 
 ```
 
@@ -206,12 +216,12 @@ pwu%>%
   aes(x=pwu, y=score, fill = Attribut)+
    stat_summary(geom = "bar", position = position_dodge()) +
     coord_flip()+
-  stat_summary(fun = mean,
-               geom = "pointrange",
-               fun.max = function(x) mean(x) + sd(x) / sqrt(length(x)),
-               fun.min = function(x) mean(x) - sd(x) / sqrt(length(x)), width= 0.2, size=0.2, alpha=0.5)+
+ # stat_summary(fun = mean,
+             #  geom = "pointrange",
+              # fun.max = function(x) mean(x) + sd(x) / sqrt(length(x)),
+              # fun.min = function(x) mean(x) - sd(x) / sqrt(length(x)), width= 0.2, size=.2, position = position_dodge(width =0.90))+
  # stat_summary(fun = mean,geom = "point") + # adds point fot the mean
- # stat_summary(fun.data = mean_se, geom = "errorbar", width= 0.4, size=0.5, alpha=0.5) + #other function for se
+ stat_summary(fun.data = mean_se, geom = "errorbar", width= 0.2, size=.2, position = position_dodge(width =0.90)) + #other function for se
  # stat_summary(geom="text", aes(label=sprintf("%1.2f%%", ..y..)), size=3, position= position_dodge(width = 0.09)) + #insert percent values
   labs(x="", y="Teilnutzenwerte der Merkmale", fill= "Attribute")+
   scale_fill_manual( values = c ("#adf7b6", "#ffc09f", "#ffee93","#a0ced9"))+
@@ -237,7 +247,7 @@ pwu%>%
 theme_minimal_vgrid()
 
 
-ggsave('data/pwu5.png', width = 20, height = 10, units = "cm", dpi=300)
+#ggsave('data/pwu.png', width = 20, height = 10, units = "cm", dpi=300)
 
  
 
@@ -313,6 +323,19 @@ cor.data %>%
   rename(Alter = age) %>%
 cor.matrix.plot()
 
+
+
+
+res<-cor(cor.data,use = "complete.obs", method = "spearman")
+round(res,2)
+
+library("Hmisc")
+res2 <- rcorr(as.matrix(cor.data))
+res2
+
+res2$P
+
+round(res2$P, 3)
 
 ```
 
